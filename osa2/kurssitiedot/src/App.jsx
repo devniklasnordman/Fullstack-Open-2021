@@ -1,10 +1,10 @@
 const Header = ({ name }) => {
-  return <h1>{name}</h1>
+  return <h2>{name}</h2>
 }
 
 const Total = ({ parts }) => {
   const total = parts.reduce((sum, part) => sum + part.exercises, 0)
-  return <p>Number of exercises {total}</p>
+  return <b>Number of exercises {total}</b>
 }
 
 const Part = ({ part }) => {
@@ -37,7 +37,8 @@ const Course = ({ course }) => {
 
 
 const App = () => {
-  const course = {
+  const courses = [
+  {
     name: 'Half Stack application development',
     id: 1,
     parts: [
@@ -57,11 +58,29 @@ const App = () => {
         id: 3
       }
     ]
+  },
+  {
+    name: 'Node.js',
+    id: 2,
+    parts: [
+      {
+        name: 'Routing',
+        exercises: 3,
+        id: 1
+      },
+      {
+        name: 'Middlewares',
+        exercises: 7,
+        id: 2
+      }
+    ]
   }
+  ]
 
   return (
     <div>
-      <Course course={course} />
+      <h1> Web development curriculum </h1>
+      {courses.map(course => <Course key={course.id} course={course} />)}
     </div>
   )
 }
