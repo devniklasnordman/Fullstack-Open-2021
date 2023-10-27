@@ -8,7 +8,7 @@
 const FilterInput = ({ value, onChange }) => {
   return (
     <div>
-      filter shown with <input value={value} onChange={onChange} />
+      filter shown with <input value={value} onChange={onChange} name='filetrInput' />
     </div>
   );
 };

@@ -15,9 +15,9 @@ const NameForm = ({
   return (
     <form onSubmit={addName}>
       <div>
-        name: <input value={newName} onChange={handleNameChange} />
+        name: <input value={newName} onChange={handleNameChange} name='nameInput' />
         <div>
-          number: <input value={newNumber} onChange={handleNumberChange} />
+          number: <input value={newNumber} onChange={handleNumberChange} name='numberInput'/>
         </div>
       </div>
       <div>

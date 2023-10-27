@@ -12,6 +12,7 @@ const App = () => {
   const [newFilter, setNewFilter] = useState("");
   const [showAll, setShowAll] = useState(true);
 
+  // Show all items from server
   useEffect(() => {
     personService
       .getAll()
@@ -20,6 +21,7 @@ const App = () => {
       })
   }, [])
 
+  // Add a name to the phonebook
   const addName = (event) => {
     event.preventDefault();
 
@@ -43,6 +45,25 @@ const App = () => {
     }
   };
 
+  // Delete a name from the phonebook
+  const deleteName = (id) => {
+      const confirmed = window.confirm('Do you want to delete this contact from Phonebook?')
+    
+     
+    if (confirmed) {
+        personService
+        .remove(id)
+        .then(response => {
+          console.log(`Contact successfully deleted`)
+          setPersons(persons.filter((person) => person.id !== id))
+        })
+        .catch(error => {
+          console.log('Contact deletion error', error)
+        })
+    }
+  }
+
+  // Event handlers
   const handleNameChange = (event) => {
     setNewName(event.target.value);
   };
@@ -55,11 +76,13 @@ const App = () => {
     setNewFilter(event.target.value);
   };
 
+  // Filter for names to appear on phonebook
   const namesToShow = !showAll
     ? persons
     : persons.filter((person) =>
         person.name.toLowerCase().startsWith(newFilter.toLowerCase())
       );
+
 
   return (
     <div>
@@ -73,7 +96,7 @@ const App = () => {
         handleNumberChange={handleNumberChange}
       />
       <h2>Numbers</h2>
-      <Persons persons={namesToShow} />
+      <Persons persons={namesToShow} deleteName={deleteName} />
     </div>
   );
 };
