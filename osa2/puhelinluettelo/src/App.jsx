@@ -14,6 +14,7 @@ const App = () => {
   const [newFilter, setNewFilter] = useState("");
   const [showAll, setShowAll] = useState(true);
   const [notificationMessage, setNotificationMessage] = useState(null);
+  const [notificationClass, setnotificationClass] = useState('notification');
 
   // Show all items from server
   useEffect(() => {
@@ -57,6 +58,12 @@ const App = () => {
                 }, 3000)
               })
           .catch(error => {
+            setNotificationMessage(`Contact ${newName} already deleted`)
+            setnotificationClass('error')
+            setTimeout(() => {
+              setNotificationMessage(null)
+              setnotificationClass('notification')
+              }, 3000)
             console.log('Contact update error:', error)
           })
           
@@ -99,6 +106,12 @@ const App = () => {
                 }, 3000)
         })
         .catch(error => {
+          setNotificationMessage(`Contact ${newName} already deleted`)
+          setnotificationClass('error')
+          setTimeout(() => {
+            setNotificationMessage(null)
+            setnotificationClass('notification')
+          }, 3000)
           console.log('Contact deletion error', error)
         })
     }
@@ -129,7 +142,7 @@ const App = () => {
     <div>
       <FilterInput value={newFilter} onChange={handleFilterChange} />
       <h2>Phonebook</h2>
-      <Notification message={notificationMessage} />
+      <Notification message={notificationMessage} className={notificationClass} />
       <NameForm
         addName={addName}
         newName={newName}
