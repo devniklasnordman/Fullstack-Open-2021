@@ -4,6 +4,8 @@ import FilterInput from "./components/FilterInput";
 import NameForm from "./components/NameForm";
 import Persons from "./components/Persons";
 import personService from "./services/personService";
+import Notification from "./components/Notification";
+import './index.css'
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -11,6 +13,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
   const [newFilter, setNewFilter] = useState("");
   const [showAll, setShowAll] = useState(true);
+  const [notificationMessage, setNotificationMessage] = useState(null);
 
   // Show all items from server
   useEffect(() => {
@@ -48,6 +51,10 @@ const App = () => {
                 setPersons(updatedList)
                 setNewName("")
                 setNewNumber("")
+                setNotificationMessage(`Contact ${newName} successfully updated`)
+                setTimeout(() => {
+                  setNotificationMessage(null)
+                }, 3000)
               })
           .catch(error => {
             console.log('Contact update error:', error)
@@ -67,6 +74,10 @@ const App = () => {
           setPersons([...persons, response])
           setNewName("");
           setNewNumber("");
+          setNotificationMessage(`Contact ${newName} successfully added`)
+                setTimeout(() => {
+                  setNotificationMessage(null)
+                }, 3000)
         })
     }
   };
@@ -82,6 +93,10 @@ const App = () => {
         .then(response => {
           console.log(`Contact successfully deleted`)
           setPersons(persons.filter((person) => person.id !== id))
+          setNotificationMessage(`Contact ${newName} successfully deleted`)
+                setTimeout(() => {
+                  setNotificationMessage(null)
+                }, 3000)
         })
         .catch(error => {
           console.log('Contact deletion error', error)
@@ -114,6 +129,7 @@ const App = () => {
     <div>
       <FilterInput value={newFilter} onChange={handleFilterChange} />
       <h2>Phonebook</h2>
+      <Notification message={notificationMessage} />
       <NameForm
         addName={addName}
         newName={newName}
