@@ -27,8 +27,34 @@ const App = () => {
 
     const nameOnList = persons.some((person) => person.name === newName);
 
+    // If the new name already exists in phonebook, then existing contact number can be changed
     if (nameOnList) {
-      alert(`${newName} is already added to phonebook`);
+      const replaceNumber = window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)
+
+      if(replaceNumber) {
+        const nameObject = {
+          name: newName,
+          number: newNumber,
+        }
+        
+        const idToUpdate = persons.find((person) => person.name === newName).id
+
+        personService
+          .update(idToUpdate, nameObject)
+          .then(response => {
+                  const updatedList = persons.map(person =>
+                    person.name === newName ? {...person, number: newNumber} : person
+                )
+                setPersons(updatedList)
+                setNewName("")
+                setNewNumber("")
+              })
+          .catch(error => {
+            console.log('Contact update error:', error)
+          })
+          
+      }
+
     } else {
       const nameObject = {
         name: newName,
