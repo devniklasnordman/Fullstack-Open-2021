@@ -53,12 +53,19 @@ const App = () => {
                 setNewName("")
                 setNewNumber("")
                 setNotificationMessage(`Contact ${newName} successfully updated`)
+                setnotificationClass('notification')
                 setTimeout(() => {
                   setNotificationMessage(null)
                 }, 3000)
               })
           .catch(error => {
-            setNotificationMessage(`Contact ${newName} already deleted`)
+            if (error.response && error.response.status === 400) {
+              setNotificationMessage('Not a valid phone number! Corrext format of phone number is 02-345678... OR 040-456789...')
+            } else if (error.response && error.response.status === 204) {
+              setNotificationMessage(`Contact ${newName} already deleted`)
+            } else {
+              setNotificationMessage(`Error updating phone number`)
+            }
             setnotificationClass('error')
             setTimeout(() => {
               setNotificationMessage(null)
@@ -82,15 +89,18 @@ const App = () => {
           setNewName("");
           setNewNumber("");
           setNotificationMessage(`Contact ${newName} successfully added`)
+          setnotificationClass('notification')
                 setTimeout(() => {
                   setNotificationMessage(null)
                 }, 3000)
         })
         .catch(error => {
-          console.log(error.response.data)
-          setNotificationMessage(error.response.data)
+          console.log(error.response.data.error)
+          setNotificationMessage(error.response.data.error)
+          setnotificationClass('error')
                 setTimeout(() => {
                   setNotificationMessage(null)
+                  setnotificationClass('error')
                 }, 3000)
         })
     }
