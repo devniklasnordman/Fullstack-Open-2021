@@ -1,0 +1,12 @@
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImR1bW15X3VzZXIiLCJpZCI6IjY1NjYwNmVmNWM2NGY0NGVlMzBjMDU0MiIsImlhdCI6MTcwMTE4NTI4OH0.QbXlR0-QPLwJWiMpcPOO02pS_7C3Nz53BX9kcT4gjBs
+
+{
+  "title": "Testaaminen on tärkeää",
+  "author": "Meikäläinen",
+  "url": "http://testiblogi.com",
+  "likes": 0,
+  "userId": "656606ef5c64f44ee30c0542"
+}
+
