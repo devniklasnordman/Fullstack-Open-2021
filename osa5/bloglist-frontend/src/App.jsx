@@ -69,6 +69,12 @@ const App = () => {
     console.log('logging in with', username, password)
   }
 
+  
+  const handleLogOut = () => {
+    setUser(null)
+  }
+
+
 
   if (user === null) {
     return (
@@ -102,7 +108,8 @@ const App = () => {
   return (
     <div>
       <h2>blogs</h2>
-      <p>{user.name} logged in</p>
+      <p>{user.name} logged in <button type="submit" onClick={handleLogOut}>logout</button></p> 
+      
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
       )}
