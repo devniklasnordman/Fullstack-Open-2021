@@ -6,6 +6,7 @@ import Notification from './components/Notification'
 
 
 const App = () => {
+  const [blogformVisible, setBlogformVisible] = useState(false)
   const [blogs, setBlogs] = useState([])
   const [errorMessage, setErrorMessage] = useState(null)
   const [username, setUsername] = useState('') 
@@ -191,6 +192,8 @@ const App = () => {
     )
   }
 
+  const hideWhenVisible = { display: blogformVisible ? 'none' : '' }
+  const showWhenVisible = { display: blogformVisible ? '' : 'none' }
   return (
     <div>
       <h2>blogs</h2>
@@ -198,12 +201,18 @@ const App = () => {
       <Notification message={successMessage} className={successClass} />
       <p>{user.name} logged in <button type="submit" onClick={handleLogOut}>logout</button></p> 
       
+      <div style={hideWhenVisible}>
+          <button onClick={() => setBlogformVisible(true)}>new blog</button>
+        </div>
+        <div style={showWhenVisible}>
+          <h2>create new</h2>
+            {blogForm()}
+          <button onClick={() => setBlogformVisible(false)}>cancel</button>
+        </div>
+
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
       )}
-
-      <h2>create new</h2>
-      {blogForm()}
 
     </div>
   )
