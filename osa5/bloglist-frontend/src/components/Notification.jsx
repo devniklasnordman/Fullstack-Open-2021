@@ -11,4 +11,4 @@ const Notification = ({ message, className }) => {
     )
   }
 
-  export default Notification;
+  export default Notification
