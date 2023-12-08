@@ -16,18 +16,18 @@ const Blog = ({ blog, setBlogs, user }) => {
       await blogService.update(blog.id, updatedBlog)
       setBlogs((currentBlogs) =>
         currentBlogs.map((b) => (b.id === blog.id ? updatedBlog : b))
-        )
+      )
     } catch (error) {
       console.error('Blog like update error:', error)
     }
+    console.log('After update: ', blog)
   }
 
   const handleDelete = async () => {
     if (window.confirm(`Delete blog ${blog.title}?`)) {
       try {
         await blogService.remove(blog.id)
-        setBlogs((currentBlogs) => 
-          currentBlogs.filter((b) => b.id !== blog.id))
+        setBlogs((currentBlogs) => currentBlogs.filter((b) => b.id !== blog.id))
       } catch (error) {
         console.log('Blog delete error:', error)
       }
