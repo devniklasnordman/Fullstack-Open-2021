@@ -1,21 +1,29 @@
 describe('Blog ', function() {
   beforeEach(function() {
+    cy.request('POST', 'http://localhost:3003/api/testing/reset')
+    const newUser = {
+      username: 'timo',
+      name: 'Testi Timppa',
+      password: 'salatimppa'
+  }
+    cy.request('POST', 'http://localhost:3003/api/users/', newUser)
     cy.visit('http://localhost:5173')
   })
-  it('front page can be opened', function() {
-    cy.contains('Log in')
-    //cy.contains('Note app, Department of Computer Science, University of Helsinki 2023')
+  it('Login form is visible', function() {
+    cy.get('input[name="Username"]').should('be.visible')
+    cy.get('input[name="Password"]').should('be.visible')
   })
 
   describe('when logged in', function() {
     beforeEach(function() {
+      // Correct credentials
       cy.contains('login').click()
-      cy.get('input:first').type('niknor')
-      cy.get('input:last').type('salasana')
+      cy.get('input:first').type('timo')
+      cy.get('input:last').type('salatimppa')
       cy.contains('login').click()
     })
  
-    it('a new blog can be created', function() {
+    it('creates a new blog with logged in user', function() {
       cy.contains('new blog').click()
       cy.get('input:first').type('Tomi testaa!')
       cy.get('input').eq(1).type('Testi Timppa')
@@ -24,4 +32,15 @@ describe('Blog ', function() {
       cy.contains('a new blog')
     })
   })
+
+  it('Use incorrect credentials', function() {
+    cy.contains('login').click()
+    cy.get('input:first').type('maija')
+    cy.get('input:last').type('mehilainen')
+    cy.contains('login').click()
+
+    cy.contains('wrong username or password')
+
+  })
+
 })
