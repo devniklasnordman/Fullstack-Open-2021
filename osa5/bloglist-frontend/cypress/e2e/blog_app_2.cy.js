@@ -31,6 +31,22 @@ describe('Blog ', function() {
       cy.contains('save').click()
       cy.contains('a new blog')
     })
+
+    it('Adding likes to a blog', function () {
+      // Create
+      cy.contains('new blog').click()
+      cy.get('input:first').type('Tomi testaa!')
+      cy.get('input').eq(1).type('Testi Timppa')
+      cy.get('input:last').type('www.testitimppa.fi')
+      cy.contains('save').click()
+      // Like
+      cy.contains('view').parent().find('button').eq(0).click()
+      cy.contains('like').parent().find('button').eq(0).click()
+
+      cy.pause()
+      // And check likes
+      cy.contains('likes').parent().should('contain', '1')
+    })
   })
 
   it('Use incorrect credentials', function() {

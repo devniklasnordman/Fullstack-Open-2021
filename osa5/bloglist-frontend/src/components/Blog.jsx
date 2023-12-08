@@ -59,8 +59,8 @@ const Blog = ({ blog, setBlogs, user }) => {
         <div style={detailsStyle}>
           <div>{blog.url}</div>
           <div>
-            likes {blog.likes}{' '}
-            <button onClick={handleLike}>like</button>
+            likes <span className="likes">{blog.likes}</span>{' '}
+            <button id='like-button' onClick={handleLike}>like</button>
           </div>
           <div>added by {blog.user.name}</div>
           {user && blog.user && user.username === blog.user.username && (
