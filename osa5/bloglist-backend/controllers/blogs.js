@@ -43,20 +43,26 @@ router.put('/:id', async (request, response) => {
 })
 
 router.delete('/:id', userExtractor, async (request, response) => {
-  const blog = await Blog.findById(request.params.id)
+  const blogId = request.params.id
 
+  const blog = await Blog.findById(blogId)
+  console.log(blog)
   const user = request.user
 
   if (!user || blog.user.toString() !== user.id.toString()) {
     return response.status(401).json({ error: 'operation not permitted' })
   }
 
-  user.blogs = user.blogs.filter(b => b.toString() !== blog.id.toString() )
+  try {
+    await Blog.deleteOne({ _id: blogId })
+    user.blogs = user.blogs.filter(b => b.toString() !== blogId) 
+    await user.save()
 
-  await user.save()
-  await blog.remove()
-  
-  response.status(204).end()
+    response.status(204).end()
+  } catch (error) {
+    console.error('Blog delete error:', error)
+    response.status(500).json({ error: 'Internal Server Error' })
+  }
 })
 
 module.exports = router
