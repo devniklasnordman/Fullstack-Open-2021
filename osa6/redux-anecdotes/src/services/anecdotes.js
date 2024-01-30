@@ -8,10 +8,26 @@ const getAll = async () => {
 }
 
 const createNew = async (content) => {
-  const object = { content, important: false }
+  const object = { content, votes: 0 }
   const response = await axios.post(baseUrl, object)
   return response.data
 }
 
+const voteAnecdote = async (id) => {
+  // Fetch the specific anecdote
+  const response = await axios.get(`${baseUrl}/${id}`)
+  const anecdoteToChange = response.data
 
-export default { getAll, createNew }
+  // Update the votes count
+  const changedAnecdote = { 
+    ...anecdoteToChange, 
+    votes: anecdoteToChange.votes + 1 
+  }
+
+  // Send the updated anecdote back to the server
+  const updatedResponse = await axios.put(`${baseUrl}/${id}`, changedAnecdote)
+  return updatedResponse.data
+}
+
+
+export default { getAll, createNew, voteAnecdote }
