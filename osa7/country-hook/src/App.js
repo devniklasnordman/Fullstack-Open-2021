@@ -11,19 +11,45 @@ const useField = (type) => {
   return {
     type,
     value,
-    onChange
+    onChange,
   }
 }
 
 const useCountry = (name) => {
   const [country, setCountry] = useState(null)
 
-  useEffect(() => {})
+  useEffect(() => {
+    if (name) {
+      axios.get(`https://restcountries.com/v3.1/name/${name}?fullText=true`)
+        .then(response => {
+          const countryData = response.data && response.data.length > 0 ? response.data[0] : null
+          if (countryData) {
+            setCountry({ 
+              found: true, 
+              data: {
+                name: countryData.name.common,
+                officialName: countryData.name.official,
+                capital: countryData.capital ? countryData.capital[0] : 'N/A',
+                population: countryData.population,
+                flag: countryData.flags.svg
+              }
+            })
+          } else {
+            setCountry({ found: false })
+          }
+        })
+        .catch(() => {
+          setCountry({ found: false })
+        })
+    }
+  }, [name])
 
   return country
 }
 
+
 const Country = ({ country }) => {
+  console.log("Country prop:", country)
   if (!country) {
     return null
   }
@@ -35,7 +61,6 @@ const Country = ({ country }) => {
       </div>
     )
   }
-
   return (
     <div>
       <h3>{country.data.name} </h3>
