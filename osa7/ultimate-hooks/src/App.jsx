@@ -18,18 +18,41 @@ const useField = (type) => {
 const useResource = (baseUrl) => {
   const [resources, setResources] = useState([])
 
-  // ...
+  let token = null
 
-  const create = (resource) => {
-    // ...
+  const setToken = newToken => {
+    token = `bearer ${newToken}`
+  }
+
+  useEffect(() => {
+    const getAll = async () => {
+      const response = await axios.get(baseUrl)
+      setResources(response.data)
+    }
+    getAll()
+  }, [baseUrl])
+
+  const create = async newObject => {
+    const config = token ? { headers: { Authorization: token } } : {}
+    const response = await axios.post(baseUrl, newObject, config)
+    setResources(resources.concat(response.data))
+  }
+
+  const update = async (id, newObject) => {
+    const config = token ? { headers: { Authorization: token } } : {}
+    const response = await axios.put(`${baseUrl}/${id}`, newObject, config)
+    setResources(resources.map(resource => resource.id === id ? response.data : resource))
   }
 
   const service = {
+    update,
+    setToken,
     create
   }
 
   return [
-    resources, service
+    resources,
+    service
   ]
 }
 
