@@ -11,6 +11,22 @@
     {
       "content": "My awesome note",
       "id": 3
+    },
+    {
+      "content": "Lets kill the impostor syndrom now!",
+      "id": 4
+    },
+    {
+      "content": "Evolving notes",
+      "id": 5
+    },
+    {
+      "content": "Evolving notes",
+      "id": 6
+    },
+    {
+      "content": "new note with notification!",
+      "id": 7
     }
   ],
   "persons": [
@@ -28,6 +44,21 @@
       "name": "Pekka Sauri",
       "number": "040123456",
       "id": 3
+    },
+    {
+      "name": "Donald Trump",
+      "number": "917.756.8000",
+      "id": 4
+    },
+    {
+      "name": "masa",
+      "number": "1234",
+      "id": 5
+    },
+    {
+      "name": "James bong",
+      "number": "007-420",
+      "id": 6
     }
   ]
 }
